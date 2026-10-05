@@ -1,0 +1,27 @@
+# Maven build artifacts
+**/target/
+*.jar
+*.war
+*.nar
+*.ear
+
+# Tools directory (local maven download)
+.tools/
+
+# IDE and Editor files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini

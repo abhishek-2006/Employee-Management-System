@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - JV Group Employee Management System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e40af'/><text x='50%' y='62%' font-size='42' font-weight='900' fill='%23ffffff' text-anchor='middle'>JV</text></svg>">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation (Requirement 11) -->
+    <aside class="sidebar" id="appSidebar">
+      <div class="sidebar-brand">
+        <div class="brand-emblem-small">JV</div>
+        <div class="brand-text">
+          <h2>JV GROUP</h2>
+          <span>JV-GEMS Admin</span>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="menu-section-header">Core Management</li>
+        <li class="menu-item">
+          <a class="menu-link active" onclick="switchTab('dashboard')">
+            <div class="menu-link-content">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+              Dashboard
+            </div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" onclick="switchTab('employees')">
+            <div class="menu-link-content">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              Employees
+            </div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" onclick="openAddEmployeeModal()">
+            <div class="menu-link-content">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+              Add Employee
+            </div>
+          </a>
+        </li>
+
+        <li class="menu-section-header">Operations & HR</li>
+        <li class="menu-item">
+          <a class="menu-link" onclick="switchTab('attendance')">
+            <div class="menu-link-content">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Attendance
+            </div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" onclick="switchTab('leaves')">
+            <div class="menu-link-content">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              Leave Management
+            </div>
+            <span class="badge-notif-count" id="sidebarPendingLeavesCount" style="display: none;">0</span>
+          </a>
+        </li>
+
+        <li class="menu-section-header">System & Insights</li>
+        <li class="menu-item">
+          <a class="menu-link" onclick="switchTab('reports')">
+            <div class="menu-link-content">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              Reports
+            </div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a class="menu-link" onclick="switchTab('settings')">
+            <div class="menu-link-content">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+              Settings
+            </div>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar" id="adminAvatar">A</div>
+          <div class="user-info">
+            <div class="user-name" id="adminNameDisplay">System Admin</div>
+            <div class="user-role">JV Group Administrator</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-block btn-sm" onclick="handleLogout()">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Body -->
+    <main class="main-content">
+      <!-- Top Navigation Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="hamburger-btn" onclick="toggleMobileSidebar()" title="Toggle Menu">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div class="page-title">
+            <h2 id="currentSectionTitle">Admin Dashboard</h2>
+            <p>JV Group of Company &bull; JV-GEMS Enterprise Portal</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <div class="system-status-indicator">
+            <span class="status-dot"></span>
+            <span>JV Cloud &bull; Active</span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openAddEmployeeModal()">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Add Employee
+          </button>
+        </div>
+      </header>
+
+      <div class="page-container">
+
+        <!-- ================= SECTION 1: DASHBOARD ================= -->
+        <section id="pane-dashboard" class="tab-pane active">
+          <!-- 6 Key Stats Cards (Requirement 4) -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-info">
+                <div class="stat-label">Total Employees</div>
+                <div class="stat-value" id="statTotalEmployees">0</div>
+              </div>
+              <div class="stat-icon blue">👥</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <div class="stat-label">Active Employees</div>
+                <div class="stat-value" id="statActiveEmployees">0</div>
+              </div>
+              <div class="stat-icon green">✅</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <div class="stat-label">Inactive Employees</div>
+                <div class="stat-value" id="statInactiveEmployees">0</div>
+              </div>
+              <div class="stat-icon rose">⏸️</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <div class="stat-label">Departments</div>
+                <div class="stat-value" id="statDepartments">0</div>
+              </div>
+              <div class="stat-icon purple">🏢</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <div class="stat-label">Present Today</div>
+                <div class="stat-value" id="statTodayPresent">0</div>
+              </div>
+              <div class="stat-icon emerald">🕒</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <div class="stat-label">Pending Leaves</div>
+                <div class="stat-value" id="statPendingLeaves">0</div>
+              </div>
+              <div class="stat-icon amber">📝</div>
+            </div>
+          </div>
+
+          <!-- Quick Overview Cards -->
+          <div class="content-card">
+            <div class="card-header-flex">
+              <div>
+                <h3 class="card-title">Recent Employees</h3>
+                <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                  Latest team members registered in the JV Group of Company
+                </p>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="switchTab('employees')">View Directory &rarr;</button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Photo</th>
+                    <th>Emp ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Status</th>
+                    <th>Biometrics</th>
+                  </tr>
+                </thead>
+                <tbody id="quickEmployeesBody">
+                  <tr><td colspan="7" style="text-align: center;">Loading data...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SECTION 2: EMPLOYEES MANAGEMENT ================= -->
+        <section id="pane-employees" class="tab-pane">
+          <div class="content-card">
+            <div class="card-header-flex">
+              <div>
+                <h3 class="card-title">Employee Directory</h3>
+                <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                  Manage staff accounts, profiles, department assignments, and access control
+                </p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="openAddEmployeeModal()">+ Add New Employee</button>
+            </div>
+
+            <!-- Modern Search & Filter Toolbar (Requirement 8) -->
+            <div class="search-filter-panel">
+              <div class="filter-row">
+                <div class="search-box-wrapper">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                  <input type="text" id="employeeSearchInput" class="search-box-input" placeholder="Search by name, ID, email, or mobile..." oninput="handleEmployeeFilterChange()">
+                </div>
+
+                <div class="filter-item">
+                  <label for="empFilterDept">Department:</label>
+                  <select id="empFilterDept" class="filter-select" onchange="handleEmployeeFilterChange()">
+                    <option value="">All Departments</option>
+                  </select>
+                </div>
+
+                <div class="filter-item">
+                  <label for="empFilterDesig">Designation:</label>
+                  <select id="empFilterDesig" class="filter-select" onchange="handleEmployeeFilterChange()">
+                    <option value="">All Designations</option>
+                  </select>
+                </div>
+
+                <div class="filter-item">
+                  <label for="empFilterStatus">Status:</label>
+                  <select id="empFilterStatus" class="filter-select" onchange="handleEmployeeFilterChange()">
+                    <option value="ALL">All Statuses</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
+                  </select>
+                </div>
+
+                <button class="btn btn-secondary btn-sm" onclick="resetEmployeeFilters()">Reset Filters</button>
+              </div>
+
+              <div class="filter-stats-bar">
+                <span id="employeeFilterCountText">Showing all employees</span>
+                <span style="font-size: 11.5px; color: var(--text-muted);">JV Group HR Database</span>
+              </div>
+            </div>
+
+            <!-- Employee Table (Requirement 5 & 7) -->
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Photo</th>
+                    <th>Employee ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="employeesTableBody">
+                  <tr><td colspan="9" style="text-align: center;">Loading employees...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SECTION 3: ATTENDANCE ================= -->
+        <section id="pane-attendance" class="tab-pane">
+          <div class="content-card">
+            <div class="card-header-flex">
+              <div>
+                <h3 class="card-title">Attendance Records</h3>
+                <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                  Real-time face scan attendance records with automated work hour calculation
+                </p>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="loadAttendance()">Refresh Records</button>
+            </div>
+
+            <!-- Attendance Filters -->
+            <div class="search-filter-panel">
+              <div class="filter-row">
+                <div class="search-box-wrapper" style="flex: 1; min-width: 200px;">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                  <input type="text" id="attFilterSearch" class="search-box-input" placeholder="Search employee name or ID..." oninput="applyAttendanceFilters()">
+                </div>
+
+                <div class="filter-item">
+                  <label for="attFilterDate">Date:</label>
+                  <input type="date" id="attFilterDate" class="filter-select" onchange="applyAttendanceFilters()">
+                </div>
+
+                <div class="filter-item">
+                  <label for="attFilterDepartment">Department:</label>
+                  <select id="attFilterDepartment" class="filter-select" style="min-width: 150px;" onchange="applyAttendanceFilters()">
+                    <option value="">All Departments</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Human Resources">Human Resources</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Operations">Operations</option>
+                    <option value="Legal">Legal</option>
+                    <option value="Administration">Administration</option>
+                  </select>
+                </div>
+
+                <div class="filter-item">
+                  <label for="attFilterStatus">Status:</label>
+                  <select id="attFilterStatus" class="filter-select" style="min-width: 140px;" onchange="applyAttendanceFilters()">
+                    <option value="">All Statuses</option>
+                    <option value="PRESENT">Present</option>
+                    <option value="IN PROGRESS">In Progress</option>
+                  </select>
+                </div>
+
+                <button class="btn btn-secondary btn-sm" onclick="resetAttendanceFilters()">Reset</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Photo</th>
+                    <th>Employee</th>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Punch In</th>
+                    <th>Punch Out</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="attendanceTableBody">
+                  <tr><td colspan="8" style="text-align: center;">Loading attendance records...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SECTION 4: LEAVE REQUESTS ================= -->
+        <section id="pane-leaves" class="tab-pane">
+          <div class="content-card">
+            <div class="card-header-flex">
+              <div>
+                <h3 class="card-title">Leave Management</h3>
+                <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                  Review leave applications, grant approvals/rejections, and dispatch in-app notifications
+                </p>
+              </div>
+              <div class="filter-item">
+                <label for="leaveStatusFilter">Status Filter:</label>
+                <select id="leaveStatusFilter" class="filter-select" onchange="loadLeaveRequests()">
+                  <option value="ALL">All Requests</option>
+                  <option value="PENDING" selected>Pending Only</option>
+                  <option value="APPROVED">Approved</option>
+                  <option value="REJECTED">Rejected</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Employee</th>
+                    <th>Department</th>
+                    <th>Leave Type</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Applied At</th>
+                    <th>Actions / Review</th>
+                  </tr>
+                </thead>
+                <tbody id="leavesTableBody">
+                  <tr><td colspan="9" style="text-align: center;">Loading leave applications...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SECTION 5: REPORTS (Requirement 11) ================= -->
+        <section id="pane-reports" class="tab-pane">
+          <div class="content-card">
+            <div class="card-header-flex">
+              <div>
+                <h3 class="card-title">Workforce & Operational Reports</h3>
+                <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                  Summary analytics for JV Group of Company management
+                </p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="window.print()">
+                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                Print / Export Report
+              </button>
+            </div>
+
+            <div class="stats-grid" style="margin-top: 16px;">
+              <div class="stat-card">
+                <div class="stat-info">
+                  <div class="stat-label">System Health</div>
+                  <div class="stat-value" style="font-size: 20px; color: #16a34a;">100% Operational</div>
+                </div>
+                <div class="stat-icon green">⚡</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-info">
+                  <div class="stat-label">Active Headcount</div>
+                  <div class="stat-value" id="reportActiveCount">0</div>
+                </div>
+                <div class="stat-icon blue">📈</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-info">
+                  <div class="stat-label">Biometric Adoption</div>
+                  <div class="stat-value" id="reportBiometricRate">0%</div>
+                </div>
+                <div class="stat-icon purple">🎯</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+              <h4 style="font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px;">Department Breakdown</h4>
+              <div id="reportsDeptList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+                <!-- Filled dynamically -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SECTION 6: SETTINGS (Requirement 11) ================= -->
+        <section id="pane-settings" class="tab-pane">
+          <div class="content-card">
+            <h3 class="card-title">Enterprise System Settings</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px; margin-bottom: 24px;">
+              JV Group of Company organizational parameters & configuration
+            </p>
+
+            <div class="profile-sections-grid">
+              <div class="profile-info-card">
+                <div class="profile-card-header">🏢 Company Information</div>
+                <div class="profile-field-row">
+                  <span class="profile-field-label">Legal Name</span>
+                  <span class="profile-field-val">JV Group of Company</span>
+                </div>
+                <div class="profile-field-row">
+                  <span class="profile-field-label">Application</span>
+                  <span class="profile-field-val">JV Group Employee Management System</span>
+                </div>
+                <div class="profile-field-row">
+                  <span class="profile-field-label">Short Name</span>
+                  <span class="profile-field-val">JV-GEMS</span>
+                </div>
+                <div class="profile-field-row">
+                  <span class="profile-field-label">Corporate Email</span>
+                  <span class="profile-field-val">hr@jvgroup.com</span>
+                </div>
+                <div class="profile-field-row">
+                  <span class="profile-field-label">Edition</span>
+                  <span class="profile-field-val">Enterprise 2026.1</span>
+                </div>
+              </div>
+
+              <div class="profile-info-card">
+                <div class="profile-card-header">🛡️ Admin Security Profile</div>
+                <div class="profile-field-row">
+                  <span class="profile-field-label">Admin Username</span>
+                  <span class="profile-field-val">admin</span>
+                </div>
+                <div class="profile-field-row">
+                  <span class="profile-field-label">Session Security</span>
+                  <span class="profile-field-val">Encrypted BCrypt</span>
+                </div>
+                <div class="profile-field-row">
+                  <span class="profile-field-label">Role Privilege</span>
+                  <span class="profile-field-val">Super Administrator</span>
+                </div>
+                <div class="profile-field-row">
+                  <span class="profile-field-label">Access Control</span>
+                  <span class="profile-field-val">Full Read / Write / Delete</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Footer (Branding Requirement) -->
+      <footer class="app-footer">
+        <strong>JV Group Employee Management System (JV-GEMS)</strong> &bull; &copy; 2026 JV Group of Company &bull; All Rights Reserved
+      </footer>
+    </main>
+  </div>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Add Employee Modal (Requirement 5 & 7) -->
+  <div id="addEmployeeModal" class="modal-overlay">
+    <div class="modal-box modal-large">
+      <div class="modal-header">
+        <h3>Add New Employee - JV Group</h3>
+        <button class="close-modal-btn" onclick="closeModal('addEmployeeModal')">&times;</button>
+      </div>
+      <form id="addEmployeeForm" onsubmit="submitAddEmployee(event)">
+        <div class="modal-body">
+
+          <!-- Photo Upload Section -->
+          <div class="photo-upload-container">
+            <div class="photo-preview-large" id="addPhotoPreviewContainer">
+              <span id="addPhotoPlaceholder" style="font-size: 28px;">📷</span>
+              <img id="addPhotoPreviewImg" src="" alt="Preview" style="display: none;">
+            </div>
+            <div class="photo-upload-controls">
+              <label for="addPhotoInput" class="btn btn-secondary btn-sm" style="cursor: pointer;">
+                Choose Profile Photo
+              </label>
+              <input type="file" id="addPhotoInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(this, 'add')">
+              <button type="button" class="btn btn-sm" id="addPhotoRemoveBtn" style="display: none; background: #fee2e2; color: #dc2626; border: none; margin-left: 8px;" onclick="removeUploadedPhoto('add')">Remove</button>
+              <p>Supported: JPG, PNG, WEBP. Photo will be displayed across the employee portal and tables.</p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addEmpCode">Employee Code / ID *</label>
+              <input type="text" id="addEmpCode" class="form-control" placeholder="e.g. EMP004" required>
+            </div>
+            <div class="form-group">
+              <label for="addFullName">Full Name *</label>
+              <input type="text" id="addFullName" class="form-control" placeholder="e.g. Vikramaditya Sharma" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addEmail">Official Email *</label>
+              <input type="email" id="addEmail" class="form-control" placeholder="e.g. vikram@jvgroup.com" required>
+            </div>
+            <div class="form-group">
+              <label for="addPhone">Mobile Number</label>
+              <input type="tel" id="addPhone" class="form-control" placeholder="e.g. 9876543210">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addDepartment">Department *</label>
+              <select id="addDepartment" class="form-control">
+                <option value="Engineering">Engineering</option>
+                <option value="Human Resources">Human Resources</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Finance">Finance</option>
+                <option value="Operations">Operations</option>
+                <option value="Legal">Legal</option>
+                <option value="Administration">Administration</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="addDesignation">Designation *</label>
+              <input type="text" id="addDesignation" class="form-control" placeholder="e.g. Project Lead / HR Manager" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addGender">Gender</label>
+              <select id="addGender" class="form-control">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+                <option value="Not Specified">Not Specified</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="addDob">Date of Birth</label>
+              <input type="date" id="addDob" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addJoinDate">Joining Date *</label>
+              <input type="date" id="addJoinDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="addSalary">Monthly Salary (INR)</label>
+              <input type="number" id="addSalary" class="form-control" placeholder="e.g. 60000" min="0" step="1000">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addUsername">Username / Employee Username *</label>
+              <input type="text" id="addUsername" class="form-control" placeholder="e.g. EMP005 or vikram.s" required>
+            </div>
+            <div class="form-group">
+              <label for="addStatus">Employment Status *</label>
+              <select id="addStatus" class="form-control">
+                <option value="ACTIVE" selected>Active</option>
+                <option value="INACTIVE">Inactive</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="addPassword">Password *</label>
+              <div style="position: relative;">
+                <input type="password" id="addPassword" class="form-control" placeholder="Min 4 characters" required>
+                <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('addPassword')">👁️</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="addConfirmPassword">Confirm Password *</label>
+              <div style="position: relative;">
+                <input type="password" id="addConfirmPassword" class="form-control" placeholder="Re-enter password" required>
+                <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('addConfirmPassword')">👁️</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="addAddress">Residential Address</label>
+            <textarea id="addAddress" class="form-control" rows="2" placeholder="Full residential address"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('addEmployeeModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveEmployeeBtn">Create Employee</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Employee Modal -->
+  <div id="editEmployeeModal" class="modal-overlay">
+    <div class="modal-box modal-large">
+      <div class="modal-header">
+        <h3>Edit Employee Details - JV Group</h3>
+        <button class="close-modal-btn" onclick="closeModal('editEmployeeModal')">&times;</button>
+      </div>
+      <form id="editEmployeeForm" onsubmit="submitEditEmployee(event)">
+        <input type="hidden" id="editEmpId">
+        <div class="modal-body">
+
+          <!-- Photo Update Section -->
+          <div class="photo-upload-container">
+            <div class="photo-preview-large" id="editPhotoPreviewContainer">
+              <span id="editPhotoPlaceholder" style="font-size: 28px;">📷</span>
+              <img id="editPhotoPreviewImg" src="" alt="Preview" style="display: none;">
+            </div>
+            <div class="photo-upload-controls">
+              <label for="editPhotoInput" class="btn btn-secondary btn-sm" style="cursor: pointer;">
+                Change Photo
+              </label>
+              <input type="file" id="editPhotoInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(this, 'edit')">
+              <button type="button" class="btn btn-sm" id="editPhotoRemoveBtn" style="display: none; background: #fee2e2; color: #dc2626; border: none; margin-left: 8px;" onclick="removeUploadedPhoto('edit')">Remove Photo</button>
+              <p>Upload a new photo to update the profile.</p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Employee Code</label>
+              <input type="text" id="editEmpCode" class="form-control" disabled>
+            </div>
+            <div class="form-group">
+              <label for="editFullName">Full Name *</label>
+              <input type="text" id="editFullName" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editEmail">Official Email *</label>
+              <input type="email" id="editEmail" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="editPhone">Mobile Number</label>
+              <input type="tel" id="editPhone" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editDepartment">Department</label>
+              <select id="editDepartment" class="form-control">
+                <option value="Engineering">Engineering</option>
+                <option value="Human Resources">Human Resources</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Finance">Finance</option>
+                <option value="Operations">Operations</option>
+                <option value="Legal">Legal</option>
+                <option value="Administration">Administration</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editDesignation">Designation</label>
+              <input type="text" id="editDesignation" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editGender">Gender</label>
+              <select id="editGender" class="form-control">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+                <option value="Not Specified">Not Specified</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editDob">Date of Birth</label>
+              <input type="date" id="editDob" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editJoinDate">Join Date</label>
+              <input type="date" id="editJoinDate" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="editSalary">Salary (INR)</label>
+              <input type="number" id="editSalary" class="form-control" min="0" step="1000">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="editAddress">Residential Address</label>
+            <textarea id="editAddress" class="form-control" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('editEmployeeModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="updateEmployeeBtn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Full Employee Details Modal (Requirement 6) -->
+  <div id="viewProfileModal" class="modal-overlay">
+    <div class="modal-box modal-large">
+      <div class="modal-header">
+        <h3>Complete Employee Profile &bull; JV Group</h3>
+        <button class="close-modal-btn" onclick="closeModal('viewProfileModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Top Profile Banner -->
+        <div class="profile-modal-hero">
+          <div class="profile-hero-avatar" id="viewHeroAvatar">
+            <span id="viewHeroInitials" style="font-size: 32px; font-weight: 800; color: #1e40af;">JV</span>
+            <img id="viewHeroImg" src="" alt="Photo" style="display: none;">
+          </div>
+          <div class="profile-hero-info">
+            <h2 id="viewFullNameDisplay">Employee Full Name</h2>
+            <p>
+              <span id="viewEmpCodeDisplay">EMP---</span> &bull; 
+              <span id="viewDeptDesigDisplay">Department &bull; Designation</span>
+            </p>
+            <div style="margin-top: 8px;" id="viewStatusBadgeDisplay">
+              <span class="badge badge-active">Active</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Organized Details Cards -->
+        <div class="profile-sections-grid">
+          <!-- Card 1: Personal Information -->
+          <div class="profile-info-card">
+            <div class="profile-card-header">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              Personal Information
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Full Name</span>
+              <span class="profile-field-val" id="viewFullName">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Employee ID</span>
+              <span class="profile-field-val" id="viewEmpCode">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Gender</span>
+              <span class="profile-field-val" id="viewGender">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Date of Birth</span>
+              <span class="profile-field-val" id="viewDob">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Biometric Setup</span>
+              <span class="profile-field-val" id="viewFaceStatus">-</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Contact Information -->
+          <div class="profile-info-card">
+            <div class="profile-card-header">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              Contact Information
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Email Address</span>
+              <span class="profile-field-val" id="viewEmail">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Mobile Number</span>
+              <span class="profile-field-val" id="viewPhone">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Residential Address</span>
+              <span class="profile-field-val" id="viewAddress" style="text-align: right; max-width: 60%;">-</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Job Information -->
+          <div class="profile-info-card">
+            <div class="profile-card-header">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              Job Information
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Department</span>
+              <span class="profile-field-val" id="viewDepartment">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Designation</span>
+              <span class="profile-field-val" id="viewDesignation">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Joining Date</span>
+              <span class="profile-field-val" id="viewJoinDate">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Monthly Salary</span>
+              <span class="profile-field-val" id="viewSalary">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Employment Status</span>
+              <span class="profile-field-val" id="viewStatus">-</span>
+            </div>
+          </div>
+
+          <!-- Card 4: Attendance & Leave Overview -->
+          <div class="profile-info-card">
+            <div class="profile-card-header">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              Attendance & Leave Stats
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Total Days Attended</span>
+              <span class="profile-field-val" id="viewAttTotalCount">0 records</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Total Leave Requests</span>
+              <span class="profile-field-val" id="viewLeaveTotalCount">0 requests</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Pending Leave Requests</span>
+              <span class="profile-field-val" id="viewPendingLeaveCount">0 pending</span>
+            </div>
+          </div>
+
+          <!-- Card 5: Login & Credentials (Requirement 5) -->
+          <div class="profile-info-card">
+            <div class="profile-card-header">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+              Login Credentials & Security
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Username</span>
+              <span class="profile-field-val" id="viewUsernameVal" style="font-weight: 600;">-</span>
+            </div>
+            <div class="profile-field-row">
+              <span class="profile-field-label">Password</span>
+              <span class="profile-field-val" style="letter-spacing: 2px;">••••••••</span>
+            </div>
+            <div style="margin-top: 10px;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="openResetPasswordFromView()">
+                🔑 Reset Password
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Attendance History Table for this Employee -->
+        <div style="margin-top: 24px;">
+          <h4 style="font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px;">Recent Attendance Records</h4>
+          <div class="table-responsive" style="max-height: 180px; overflow-y: auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Punch In</th>
+                  <th>Punch Out</th>
+                  <th>Work Hours</th>
+                  <th>Method</th>
+                </tr>
+              </thead>
+              <tbody id="viewEmployeeAttendanceBody">
+                <tr><td colspan="5" style="text-align: center;">No attendance records found.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recent Leaves for this Employee -->
+        <div style="margin-top: 20px;">
+          <h4 style="font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px;">Recent Leave Applications</h4>
+          <div class="table-responsive" style="max-height: 180px; overflow-y: auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Leave Type</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Reason</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="viewEmployeeLeavesBody">
+                <tr><td colspan="5" style="text-align: center;">No leave requests found.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('viewProfileModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Employee Confirmation Modal (Requirement 5) -->
+  <div id="deleteEmployeeModal" class="modal-overlay">
+    <div class="modal-box" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 style="color: var(--danger);">Confirm Employee Deletion</h3>
+        <button class="close-modal-btn" onclick="closeModal('deleteEmployeeModal')">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align: center; padding: 24px;">
+        <div style="font-size: 44px; margin-bottom: 12px;">⚠️</div>
+        <h4 style="font-size: 16px; margin-bottom: 6px;">Delete <span id="deleteEmpNameSpan" style="color: var(--danger);">Employee</span>?</h4>
+        <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5;">
+          This action will permanently delete <strong id="deleteEmpCodeSpan"></strong> from the JV Group system along with all linked attendance and leave history.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('deleteEmployeeModal')">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteEmpBtn" onclick="confirmDeleteEmployee()">Permanently Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review Leave Modal -->
+  <div id="reviewLeaveModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Review Leave Application - JV Group</h3>
+        <button class="close-modal-btn" onclick="closeModal('reviewLeaveModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: #f8fafc; padding: 14px; border-radius: var(--radius-md); margin-bottom: 16px; border: 1px solid var(--border-color);">
+          <p><strong>Employee:</strong> <span id="reviewLeaveEmpName"></span> (<span id="reviewLeaveEmpCode"></span>)</p>
+          <p style="margin-top: 4px;"><strong>Dates:</strong> <span id="reviewLeaveDates"></span></p>
+          <p style="margin-top: 4px;"><strong>Type:</strong> <span id="reviewLeaveType"></span></p>
+          <p style="margin-top: 6px;"><strong>Reason:</strong> <span id="reviewLeaveReason"></span></p>
+        </div>
+
+        <div class="form-group">
+          <label for="reviewAdminNote">Admin Feedback / Reason:</label>
+          <textarea id="reviewAdminNote" class="form-control" rows="3" placeholder="Provide note (e.g. 'Approved - task handoff completed' or reason for rejection)"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('reviewLeaveModal')">Cancel</button>
+        <button type="button" class="btn btn-danger" onclick="submitLeaveDecision('REJECTED')">Reject Request</button>
+        <button type="button" class="btn btn-success" onclick="submitLeaveDecision('APPROVED')">Approve Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attendance Record Details & Correction Modal (Requirement 10) -->
+  <div id="attendanceDetailsModal" class="modal-overlay">
+    <div class="modal-box modal-medium">
+      <div class="modal-header">
+        <h3>Attendance Record Details - JV Group</h3>
+        <button class="close-modal-btn" onclick="closeModal('attendanceDetailsModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding: 14px; background: #f8fafc; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+          <div id="attModalEmpPhoto" class="table-avatar" style="width: 52px; height: 52px; font-size: 20px;"></div>
+          <div>
+            <h4 id="attModalEmpName" style="font-size: 15px; font-weight: 700; margin: 0; color: var(--text-dark);"></h4>
+            <p id="attModalEmpInfo" style="font-size: 13px; color: var(--text-muted); margin: 2px 0 0 0;"></p>
+          </div>
+        </div>
+
+        <div class="attendance-photos-grid">
+          <div class="attendance-photo-card">
+            <h5>📷 Punch In Verification Photo</h5>
+            <div class="photo-frame">
+              <img id="attModalPunchInImg" src="" alt="Punch In Photo" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23e2e8f0\'/><text x=\'50%\' y=\'58%\' font-size=\'32\' fill=\'%2364748b\' text-anchor=\'middle\'>📷</text></svg>'">
+            </div>
+            <div class="time-stamp" id="attModalPunchInTime">Time: -</div>
+          </div>
+
+          <div class="attendance-photo-card">
+            <h5>📷 Punch Out Verification Photo</h5>
+            <div class="photo-frame">
+              <img id="attModalPunchOutImg" src="" alt="Punch Out Photo" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23e2e8f0\'/><text x=\'50%\' y=\'58%\' font-size=\'32\' fill=\'%2364748b\' text-anchor=\'middle\'>📷</text></svg>'">
+            </div>
+            <div class="time-stamp" id="attModalPunchOutTime">Time: -</div>
+          </div>
+        </div>
+
+        <!-- Attendance Correction Section -->
+        <div style="border-top: 1px dashed var(--border-color); padding-top: 16px; margin-top: 16px;">
+          <h5 style="font-size: 13.5px; font-weight: 700; margin-bottom: 10px; color: var(--text-dark);">Admin Attendance Correction</h5>
+          <input type="hidden" id="attCorrectRecordId">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="attCorrectPunchIn">Punch In Time</label>
+              <input type="time" id="attCorrectPunchIn" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="attCorrectPunchOut">Punch Out Time</label>
+              <input type="time" id="attCorrectPunchOut" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="attCorrectStatus">Attendance Status</label>
+            <select id="attCorrectStatus" class="form-control">
+              <option value="PRESENT">Present</option>
+              <option value="IN PROGRESS">In Progress</option>
+              <option value="HALF DAY">Half Day</option>
+              <option value="ABSENT">Absent</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('attendanceDetailsModal')">Close</button>
+        <button type="button" class="btn btn-primary" onclick="submitAttendanceCorrection()">Save Correction</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Reset Password Modal (Requirement 5) -->
+  <div id="adminResetPasswordModal" class="modal-overlay">
+    <div class="modal-box modal-small">
+      <div class="modal-header">
+        <h3>Reset Employee Password</h3>
+        <button class="close-modal-btn" onclick="closeModal('adminResetPasswordModal')">&times;</button>
+      </div>
+      <form id="adminResetPasswordForm" onsubmit="submitAdminResetPassword(event)">
+        <input type="hidden" id="resetPassEmpId">
+        <div class="modal-body">
+          <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+            Set a new login password for <strong id="resetPassEmpName"></strong> (<span id="resetPassEmpCode"></span>).
+          </p>
+          <div class="form-group">
+            <label for="adminNewPass">New Password *</label>
+            <div style="position: relative;">
+              <input type="password" id="adminNewPass" class="form-control" placeholder="Min 4 characters" required>
+              <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('adminNewPass')">👁️</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="adminConfirmPass">Confirm New Password *</label>
+            <div style="position: relative;">
+              <input type="password" id="adminConfirmPass" class="form-control" placeholder="Re-enter password" required>
+              <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('adminConfirmPass')">👁️</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('adminResetPasswordModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Alert -->
+  <div id="toastAlert" class="toast-alert"></div>
+
+  <!-- Application Logic -->
+  <script src="js/app.js"></script>
+</body>
+</html>
