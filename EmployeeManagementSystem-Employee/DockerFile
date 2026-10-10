@@ -4,8 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN cd EmployeeManagementSystem-Employee \
-    && bash mvnw clean package -DskipTests
+RUN  bash mvnw clean package -DskipTests
 
 FROM eclipse-temurin:17-jre
 WORKDIR /app
